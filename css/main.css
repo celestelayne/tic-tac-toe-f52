@@ -11,6 +11,7 @@ body {
 }
 
 main {
+  height: 100%;
   display: flex;
   flex: row nowrap;
   text-align: center;

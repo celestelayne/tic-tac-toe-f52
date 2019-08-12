@@ -44,6 +44,9 @@ const resetBoard = () => {
   playerX = [];
   playerO = [];
 
+  // reset winning player in aside
+  player.textContent = ''
+
   // set initial turn to 'X'
   turn = 'X';
 }

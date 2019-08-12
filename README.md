@@ -4,6 +4,10 @@
 
 Write a program that lets two players face off in a game of tic-tac-toe. I'm deliberately leaving this open ended - feel free to use whatever language you wish and whatever technologies best represent your skill set. We've included basic design specs in two formats. These are basic expectations to which your solution should conform but feel free to add other elements as needed to make the game playable.
 
+#### Installation & Usage
+
+Find the link to the live site [here](https://celestelayne.github.io/tic-tac-toe-f52/index.html).
+
 #### Pseudocode
 
 - Set up the variables for the board, squares and reset button
@@ -79,4 +83,3 @@ const setSquare = (square) => {
 }
 ```
 
-#### Installation & Usage
