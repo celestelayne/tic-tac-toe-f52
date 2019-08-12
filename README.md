@@ -66,6 +66,7 @@ board.addEventListener('click', addPiece)
 
 ```javascript
 const addPiece = (e) => {
+  e.stopPropagation()
   let currentSquare = e.target; 
   if (currentSquare.className === 'square'){
     setSquare(currentSquare)
@@ -83,3 +84,70 @@ const setSquare = (square) => {
 }
 ```
 
+7. Push the player's moves into empty array, sort (javascript built in method) and pass results to compare function
+
+```javascript
+const playGame = (val) => {
+  let dataId = val.getAttribute('data-id')
+
+  if (val.textContent === 'X'){
+    playerX.push(parseInt(dataId))
+    playerX.sort()
+  } else if (val.textContent === 'O'){
+    playerO.push(parseInt(dataId))
+    playerO.sort()
+  }
+
+  compare(winStates, playerX, playerO)
+}
+```
+
+8. Compare each player's array to the win states (array of arrays) and pass results to the checkWIns function.
+
+```javascript
+const compare = (arr, playerx, playero) => {
+
+  let player1, player2;
+
+  if(playerx.length <= 3 ) {
+    player1 = `Player X`
+    let wins = arr.filter(combo => combo.filter(el => {
+      return playerx.indexOf(el) > -1;
+    }).length == 3);
+
+    checkWins(wins, playerx, player1)
+  }
+
+  if(playero.length <= 3 ) {
+    player2 = `Player O`
+    let wins = arr.filter(combo => combo.filter(el => {
+      return playero.indexOf(el) > -1;
+    }).length == 3);
+
+    checkWins(wins, playero, player2)
+  }
+
+  if(playerx.length >= 5 || playero.length >= 5) {
+    setTimeout(() => alert(`we have a draw`), 250);
+    return;
+  }
+}
+```
+
+9. Check for wins
+
+```javascript
+const checkWins = (a, b, c) => {
+    if(JSON.stringify(a[0]) === JSON.stringify(b)){
+      player.textContent = `${c}`;
+      return false;
+    }
+}
+```
+
+10. Event handlers for the resetBoard and addPiece functions
+
+```javascript
+newGameBtn.addEventListener('click', resetBoard)
+board.addEventListener('click', addPiece)
+```

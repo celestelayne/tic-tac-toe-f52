@@ -14,12 +14,14 @@ const newGameBtn = document.querySelector('button');
 
 const player = document.querySelector('#player-score');
 
-
+// array to store player moves
 let playerX = [];
 let playerO = [];
 
+// set initial turn
 let turn = 'X';
 
+// establish win states
 const winStates = [
   [0, 1, 2],
   [3, 4, 5],
@@ -47,7 +49,7 @@ const resetBoard = () => {
   // reset winning player in aside
   player.textContent = ''
 
-  // set initial turn to 'X'
+  // set initial turn back to 'X'
   turn = 'X';
 }
 
@@ -93,6 +95,7 @@ const addPiece = (e) => {
   let currentSquare = e.target;
 
   if (currentSquare.className === 'square'){
+    // pass the current square to the setSquare function
     setSquare(currentSquare)
   }
 
@@ -108,16 +111,17 @@ const playGame = (val) => {
   if (val.textContent === 'X'){
 
     playerX.push(parseInt(dataId))
+    // sort the player moves for future compare function
     playerX.sort()
   } else if (val.textContent === 'O'){
 
     playerO.push(parseInt(dataId))
+    // sort the player moves for future compare function
     playerO.sort()
   }
 
   // pass win states array,  player 'X' and player 'O' plays into compare function
   compare(winStates, playerX, playerO)
-  // console.log('player x:', p1counter, 'player o:', p2counter)
 }
 
 const compare = (arr, playerx, playero) => {
@@ -135,6 +139,8 @@ const compare = (arr, playerx, playero) => {
   if(playero.length <= 3 ) {
     player2 = `Player O`
     let wins = arr.filter(combo => combo.filter(el => {
+      // return the first index at which a given element can be found
+      // in the array, or -1 if it is not present.
       return playero.indexOf(el) > -1;
     }).length == 3);
 
@@ -150,8 +156,6 @@ const compare = (arr, playerx, playero) => {
 
 
 const checkWins = (a, b, c) => {
-
-    // console.log(a, b)
 
     if(JSON.stringify(a[0]) === JSON.stringify(b)){
       // setTimeout(() => alert(`${c} wins`), 250);
