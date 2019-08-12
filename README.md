@@ -145,9 +145,3 @@ const checkWins = (a, b, c) => {
 }
 ```
 
-10. Event handlers for the resetBoard and addPiece functions
-
-```javascript
-newGameBtn.addEventListener('click', resetBoard)
-board.addEventListener('click', addPiece)
-```
