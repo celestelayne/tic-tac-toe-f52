@@ -6,7 +6,7 @@ Write a program that lets two players face off in a game of tic-tac-toe. I'm del
 
 #### Installation & Usage
 
-Find the link to the live site [here](https://celestelayne.github.io/tic-tac-toe-f52/index.html).
+Find the link to the live site [here](https://celestelayne.github.io/tic-tac-toe-f52/).
 
 #### Pseudocode
 
