@@ -145,7 +145,7 @@ const addPiece = (e) => {
 
   const currentSquare = e.target;
 
-  if (currentSquare.className === 'square') {
+  if (currentSquare.className === 'square' && currentSquare.textContent === '') {
     // pass the current square to the setSquare function
     setSquare(currentSquare);
   }
