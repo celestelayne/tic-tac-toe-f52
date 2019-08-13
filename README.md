@@ -23,7 +23,7 @@ Find the link to the live site [here](https://celestelayne.github.io/tic-tac-toe
 - Play game and push player moves into the player array
 - Compare player moves with win states
 - Check for wins, and draw
-- Declare winner 
+- Declare winner
 
 #### Initial logic for the main.js & code snippets
 
@@ -46,11 +46,13 @@ newGameBtn.addEventListener('click', resetBoard)
 ```javascript
 const resetBoard = () => {
   for (i in squares) {
-    squares[i].textContent = ''
+    squares[i].textContent = '';
   }
 
   playerX = [];
   playerO = [];
+
+  player.textContent = '';
 
   turn = 'X';
 }
@@ -59,16 +61,16 @@ const resetBoard = () => {
 4. Add event listener to the board (event bubbling)
 
 ```javascript
-board.addEventListener('click', addPiece)
+board.addEventListener('click', addPiece);
 ```
 
 5. Write `addPiece()` function:
 
 ```javascript
 const addPiece = (e) => {
-  e.stopPropagation()
-  let currentSquare = e.target; 
-  if (currentSquare.className === 'square'){
+  e.stopPropagation();
+  const currentSquare = e.target;
+  if (currentSquare.className === 'square' && currentSquare.textContent === ''){
     setSquare(currentSquare)
   }
   playGame(currentSquare)
@@ -88,13 +90,13 @@ const setSquare = (square) => {
 
 ```javascript
 const playGame = (val) => {
-  let dataId = val.getAttribute('data-id')
+  const dataId = val.getAttribute('data-id');
 
   if (val.textContent === 'X'){
-    playerX.push(parseInt(dataId))
+    playerX.push(parseInt(dataId, 10))
     playerX.sort()
   } else if (val.textContent === 'O'){
-    playerO.push(parseInt(dataId))
+    playerO.push(parseInt(dataId, 10))
     playerO.sort()
   }
 
@@ -107,11 +109,11 @@ const playGame = (val) => {
 ```javascript
 const compare = (arr, playerx, playero) => {
 
-  let player1, player2;
+  const player1 = 'Player X';
+  const player2 = 'Player O';
 
   if(playerx.length <= 3 ) {
-    player1 = `Player X`
-    let wins = arr.filter(combo => combo.filter(el => {
+    const wins = arr.filter(combo => combo.filter(el => {
       return playerx.indexOf(el) > -1;
     }).length == 3);
 
@@ -119,8 +121,8 @@ const compare = (arr, playerx, playero) => {
   }
 
   if(playero.length <= 3 ) {
-    player2 = `Player O`
-    let wins = arr.filter(combo => combo.filter(el => {
+
+    const wins = arr.filter(combo => combo.filter(el => {
       return playero.indexOf(el) > -1;
     }).length == 3);
 
@@ -128,20 +130,33 @@ const compare = (arr, playerx, playero) => {
   }
 
   if(playerx.length >= 5 || playero.length >= 5) {
+    checkSquaresFull();
     setTimeout(() => alert(`we have a draw`), 250);
     return;
   }
 }
 ```
 
-9. Check for wins
+9. Check that all the squares are full for the draw state
 
 ```javascript
-const checkWins = (a, b, c) => {
-    if(JSON.stringify(a[0]) === JSON.stringify(b)){
-      player.textContent = `${c}`;
-      return false;
-    }
+const checkSquaresFull = () => {
+  for (let i in squares) {
+    if (squares[i].textContent !== '');
+    return true;
+  }
+  return false;
 }
 ```
 
+10. Check for wins
+
+```javascript
+const checkWins = (a, b, c) => {
+  if(JSON.stringify(a[0]) === JSON.stringify(b)){
+    player.textContent = `${c}`;
+    return false;
+  }
+  return true;
+}
+```
