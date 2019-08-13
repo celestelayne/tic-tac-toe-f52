@@ -39,7 +39,7 @@ const resetBoard = () => {
   // console.log('clicked')
   // remove all the Xs & Os from the squares
   for (let i in squares) {
-    squares[i].textContent = ''
+    squares[i].textContent = '';
   }
 
   // reset player arrays
@@ -61,27 +61,80 @@ const setSquare = (square) => {
   square.appendChild(svg);
 
   // create a circle and set attributes
-  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  circle.setAttribute("cx", "42");
-  circle.setAttribute("cy", "42");
-  circle.setAttribute("r", "31");
-  circle.setAttribute("stroke", "#2D4558");
-  circle.setAttribute("stroke-width", "3");
-  circle.setAttribute("fill", "none");
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', '42');
+  circle.setAttribute('cy', '42');
+  circle.setAttribute('r', '31');
+  circle.setAttribute('stroke', '#2D4558');
+  circle.setAttribute('stroke-width', '3');
+  circle.setAttribute('fill', 'none');
 
   // create a crossmark and set attributes
-  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-  line.setAttribute("x1", "10");
-  line.setAttribute("y1", "10");
-  line.setAttribute("x2", "10");
-  line.setAttribute("y2", "10");
-  line.setAttribute("stroke", "#2D4558");
-  line.setAttribute("stroke-width", "3");
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', '10');
+  line.setAttribute('y1', '10');
+  line.setAttribute('x2', '10');
+  line.setAttribute('y2', '10');
+  line.setAttribute('stroke', '#2D4558');
+  line.setAttribute('stroke-width', '3');
 
   // console.log(turn);
 
   square.innerText = turn;
   turn === 'X' ? turn = 'O' : turn = 'X';
+};
+
+const checkWins = (a, b, c) => {
+  if (JSON.stringify(a[0]) === JSON.stringify(b)) {
+    // setTimeout(() => alert(`${c} wins`), 250);
+    player.textContent = `${c}`;
+    return false;
+  }
+  return true;
+};
+
+const compare = (arr, playerx, playero) => {
+  const player1 = 'Player X';
+  const player2 = 'Player O';
+
+  if (playerx.length <= 3) {
+    const wins = arr.filter((combo) => combo.filter((el) => playerx.indexOf(el) > -1)
+      .length === 3);
+    // console.log(wins, playerx)
+    checkWins(wins, playerx, player1);
+  }
+
+  if (playero.length <= 3) {
+    // return the first index at which a given element can be found
+    // in the array, or -1 if it is not present.
+    const wins = arr.filter((combo) => combo.filter((el) => playero.indexOf(el) > -1)
+      .length === 3);
+    checkWins(wins, playero, player2);
+  }
+
+  // if there is a draw
+  if (playerx.length >= 5 || playero.length >= 5) {
+    setTimeout(() => alert('we have a draw'), 250);
+    // return;
+  }
+};
+
+const playGame = (val) => {
+  // grab 'data-id' attribute for each square
+  const dataId = val.getAttribute('data-id');
+
+  if (val.textContent === 'X') {
+    playerX.push(parseInt(dataId, 10));
+    // sort the player moves for future compare function
+    playerX.sort();
+  } else if (val.textContent === 'O') {
+    playerO.push(parseInt(dataId, 10));
+    // sort the player moves for future compare function
+    playerO.sort();
+  }
+
+  // pass win states array,  player 'X' and player 'O' plays into compare function
+  compare(winStates, playerX, playerO);
 };
 
 const addPiece = (e) => {
@@ -98,67 +151,7 @@ const addPiece = (e) => {
   }
 
   // pass the current square to the game logic
-  playGame(currentSquare)
-};
-
-const playGame = (val) => {
-  // grab 'data-id' attribute for each square
-  let dataId = val.getAttribute('data-id');
-
-  if (val.textContent === 'X') {
-
-    playerX.push(parseInt(dataId))
-    // sort the player moves for future compare function
-    playerX.sort()
-  } else if (val.textContent === 'O'){
-
-    playerO.push(parseInt(dataId))
-    // sort the player moves for future compare function
-    playerO.sort()
-  }
-
-  // pass win states array,  player 'X' and player 'O' plays into compare function
-  compare(winStates, playerX, playerO)
-}
-
-const compare = (arr, playerx, playero) => {
-  let player1 = `Player X`;
-  let player2 = `Player O`;
-
-  if (playerx.length <= 3) {
-    // player1 = `Player X`
-    const wins = arr.filter((combo) => combo.filter((el) => {
-      return playerx.indexOf(el) > -1;
-    }).length === 3);
-    // console.log(wins, playerx)
-    checkWins(wins, playerx, player1)
-  }
-
-  if (playero.length <= 3) {
-    // player2 = `Player O`
-    const wins = arr.filter((combo) => combo.filter((el) => {
-      // return the first index at which a given element can be found
-      // in the array, or -1 if it is not present.
-      return playero.indexOf(el) > -1;
-    }).length === 3);
-
-    checkWins(wins, playero, player2)
-  }
-
-  // if there is a draw
-  if (playerx.length >= 5 || playero.length >= 5) {
-    setTimeout(() => alert(`we have a draw`), 250);
-    // return;
-  }
-};
-
-
-const checkWins = (a, b, c) => {
-  if (JSON.stringify(a[0]) === JSON.stringify(b)) {
-    // setTimeout(() => alert(`${c} wins`), 250);
-    player.textContent = `${c}`
-    return false;
-  }
+  playGame(currentSquare);
 };
 
 // event handlers
