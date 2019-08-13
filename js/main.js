@@ -93,6 +93,14 @@ const checkWins = (a, b, c) => {
   return true;
 };
 
+const checkSquaresFull = () => {
+  for (let i in squares) {
+    if (squares[i].textContent !== '');
+    return true;
+  }
+  return false;
+}
+
 const compare = (arr, playerx, playero) => {
   const player1 = 'Player X';
   const player2 = 'Player O';
@@ -113,10 +121,14 @@ const compare = (arr, playerx, playero) => {
   }
 
   // if there is a draw
+  // refactor so that checks if all boxes are full (squares[i].textContent !== '')
   if (playerx.length >= 5 || playero.length >= 5) {
+    checkSquaresFull();
     setTimeout(() => alert('we have a draw'), 250);
-    // return;
+    resetBoard()
+    return;
   }
+  // return false;
 };
 
 const playGame = (val) => {
@@ -137,6 +149,7 @@ const playGame = (val) => {
   compare(winStates, playerX, playerO);
 };
 
+// this function places an X or O on the board
 const addPiece = (e) => {
   // Prevents the event from bubbling up to the board,
   // but does not prevent clicking on other squares,
